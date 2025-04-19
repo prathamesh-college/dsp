@@ -1,0 +1,25 @@
+int main()
+{
+    char ch1[40],ch2[20];
+    int result1, result2;
+    
+    printf("Enter the first name: ");
+    scanf("%s",&ch1);
+    
+    printf("Enter the second name: ");
+    scanf("%s",&ch2);
+    
+    result1=strcmp(ch1,ch2);
+    
+    if(result1==0) {
+        printf("strings are equal \n");
+        }
+    else {
+        printf("strings are not equal \n");
+    }
+    
+    strcat(ch1,ch2);
+    
+    printf("%s",ch1);
+    return 0;
+}
