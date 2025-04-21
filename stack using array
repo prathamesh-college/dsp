@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 5 // Maximum size of the stack
+
+// Structure to represent a stack
+struct Stack {
+    int items[MAX]; // Array to store stack elements
+    int top;        // Index of the top element
+};
+
+// Function to create and initialize a stack
+struct Stack* createStack() {
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+    stack->top = -1; // Initialize top to -1 (indicating an empty stack)
+    return stack;
+}
+
+// Function to check if the stack is full
+int isFull(struct Stack* stack) {
+    return stack->top == MAX - 1; // Stack is full if top is at the last index
+}
+
+// Function to check if the stack is empty
+int isEmpty(struct Stack* stack) {
+    return stack->top == -1; // Stack is empty if top is -1
+}
+
+// Function to add an element to the stack
+void push(struct Stack* stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack is full! Cannot push %d\n", value);
+        return;
+    }
+    stack->items[++stack->top] = value; // Increment top and add the new element
+    printf("Pushed: %d\n", value);
+}
+
+// Function to remove an element from the stack
+int pop(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty! Cannot pop.\n");
+        return -1; // Return -1 if the stack is empty
+    }
+    return stack->items[stack->top--]; // Return the top element and decrement top
+}
+
+// Function to peek at the top element of the stack
+int peek(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty! Cannot peek.\n");
+        return -1; // Return -1 if the stack is empty
+    }
+    return stack->items[stack->top]; // Return the top element
+}
+
+// Function to display the elements of the stack
+void displayStack(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty!\n");
+        return;
+    }
+    printf("Stack elements: ");
+    for (int i = 0; i <= stack->top; i++) {
+        printf("%d ", stack->items[i]);
+    }
+    printf("\n");
+}
+
+// Main function to demonstrate stack operations
+int main() {
+    struct Stack* stack = createStack(); // Create a stack
+
+    // Perform stack operations
+    push(stack, 10);
+    push(stack, 20);
+    push(stack, 30);
+    displayStack(stack); // Display the stack
+
+    printf("Popped: %d\n", pop(stack)); // Remove an element
+    displayStack(stack); // Display the stack
+
+    printf("Top element: %d\n", peek(stack)); // Peek at the top element
+
+    push(stack, 40); // Add another element
+    push(stack, 50); // Add another element
+    push(stack, 60); // Try to push when stack is full
+    displayStack(stack); // Display the stack
+
+    // Pop all elements
+    pop(stack);
+    pop(stack);
+    pop(stack);
+    pop(stack); // Try to pop from an empty stack
+
+    return 0;
+}
