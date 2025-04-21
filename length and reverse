@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <string.h>
+
+void reversestring(char *str) {
+    int length = strlen(str);
+    int i, j;
+    char temp;
+    for (i = 0, j = length - 1; i < j; i++, j--) {
+        temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+    }
+}
+
+int main() {
+    char str[100]; 
+    printf("Enter the string to reverse: ");
+    fgets(str, sizeof(str), stdin);
+
+   
+    int length = strlen(str);
+    printf("Length of string is %d\n", length);
+
+    reversestring(str);
+
+    printf("The reversed string is: %s\n", str);
+
+    return 0;
+}
