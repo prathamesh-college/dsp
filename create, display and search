@@ -1,0 +1,142 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100
+#define MAX_NAME_LEN 50
+
+// Structure for student information
+struct Student {
+    int roll_no;
+    char name[MAX_NAME_LEN];
+    float gpa;
+    int is_active; // 1 if the record is active, 0 if deleted
+};
+
+// Global array of structures to store student data
+struct Student students[MAX_STUDENTS];
+int studentCount = 0;
+
+// Function prototypes
+void createStudent();
+void displayAllStudents();
+void searchStudent();
+void displayMenu();
+
+int main() {
+    int choice;
+    
+    // Initialize all records as inactive
+    for (int i = 0; i < MAX_STUDENTS; i++) {
+        students[i].is_active = 0;
+    }
+    
+    printf("Student Database Management System\n");
+    
+    do {
+        displayMenu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                createStudent();
+                break;
+            case 2:
+                displayAllStudents();
+                break;
+            case 3:
+                searchStudent();
+                break;
+            case 0:
+                printf("Exiting the program. Goodbye!\n");
+                break;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    } while (choice != 0);
+    
+    return 0;
+}
+
+// Display menu options
+void displayMenu() {
+    printf("\n----- MENU -----\n");
+    printf("1. Create new student record\n");
+    printf("2. Display all student records\n");
+    printf("3. Search for a student\n");
+    printf("0. Exit\n");
+}
+
+// Create a new student record
+void createStudent() {
+    if (studentCount >= MAX_STUDENTS) {
+        printf("Database is full! Cannot add more students.\n");
+        return;
+    }
+    
+    struct Student newStudent;
+    newStudent.is_active = 1;
+    
+    printf("\nEnter student details:\n");
+    printf("Roll Number: ");
+    scanf("%d", &newStudent.roll_no);
+    
+    // Clear input buffer
+    while (getchar() != '\n');
+    
+    printf("Name: ");
+    fgets(newStudent.name, MAX_NAME_LEN, stdin);
+    // Remove newline character from fgets
+    newStudent.name[strcspn(newStudent.name, "\n")] = 0;
+    
+    printf("GPA: ");
+    scanf("%f", &newStudent.gpa);
+    
+    students[studentCount] = newStudent;
+    studentCount++;
+    
+    printf("Student record created successfully!\n");
+}
+
+// Display all active student records
+void displayAllStudents() {
+    int found = 0;
+    
+    printf("\n----- Student Records -----\n");
+    printf("%-10s %-20s %-5s\n", "Roll No", "Name", "GPA");
+    printf("--------------------------------\n");
+    
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].is_active) {
+            printf("%-10d %-20s %.2f\n", students[i].roll_no, students[i].name, students[i].gpa);
+            found = 1;
+        }
+    }
+    
+    if (!found) {
+        printf("No student records found!\n");
+    }
+}
+
+// Search for a student by roll number
+void searchStudent() {
+    int roll, found = 0;
+    
+    printf("\nEnter roll number to search: ");
+    scanf("%d", &roll);
+    
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].is_active && students[i].roll_no == roll) {
+            printf("\n----- Student Found -----\n");
+            printf("Roll Number: %d\n", students[i].roll_no);
+            printf("Name: %s\n", students[i].name);
+            printf("GPA: %.2f\n", students[i].gpa);
+            found = 1;
+            break;
+        }
+    }
+    
+    if (!found) {
+        printf("Student with roll number %d not found!\n", roll);
+    }
+}
