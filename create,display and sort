@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 50
+
+struct Student {
+    int roll;
+    char name[30];
+    float marks;
+};
+
+struct Student students[MAX];
+int count = 0;
+
+void create() {
+    if (count >= MAX) {
+        printf("Database full!\n");
+        return;
+    }
+    
+    printf("\nEnter Roll Number: ");
+    scanf("%d", &students[count].roll);
+    
+    printf("Enter Name: ");
+    scanf(" %[^\n]s", students[count].name);
+    
+    printf("Enter Marks: ");
+    scanf("%f", &students[count].marks);
+    
+    count++;
+    printf("Student added successfully!\n");
+}
+
+void display() {
+    if (count == 0) {
+        printf("\nNo records to display!\n");
+        return;
+    }
+    
+    printf("\n----- STUDENT RECORDS -----\n");
+    printf("Roll\tName\t\tMarks\n");
+    printf("--------------------------------\n");
+    
+    for (int i = 0; i < count; i++) {
+        printf("%d\t%-15s\t%.2f\n", students[i].roll, students[i].name, students[i].marks);
+    }
+}
+
+void sort() {
+    int choice;
+    struct Student temp;
+    
+    printf("\nSort by:\n");
+    printf("1. Roll Number\n");
+    printf("2. Name\n");
+    printf("3. Marks\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+    
+    for (int i = 0; i < count-1; i++) {
+        for (int j = 0; j < count-i-1; j++) {
+            int swap = 0;
+            
+            switch (choice) {
+                case 1: // Sort by roll
+                    if (students[j].roll > students[j+1].roll)
+                        swap = 1;
+                    break;
+                case 2: // Sort by name
+                    if (strcmp(students[j].name, students[j+1].name) > 0)
+                        swap = 1;
+                    break;
+                case 3: // Sort by marks (descending)
+                    if (students[j].marks < students[j+1].marks)
+                        swap = 1;
+                    break;
+            }
+            
+            if (swap) {
+                temp = students[j];
+                students[j] = students[j+1];
+                students[j+1] = temp;
+            }
+        }
+    }
+    
+    printf("Records sorted successfully!\n");
+    display();
+}
+
+int main() {
+    int choice;
+    
+    do {
+        printf("\n----- MENU -----\n");
+        printf("1. Create\n");
+        printf("2. Display\n");
+        printf("3. Sort\n");
+        printf("0. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1: create(); break;
+            case 2: display(); break;
+            case 3: sort(); break;
+            case 0: printf("Exiting program. Goodbye!\n"); break;
+            default: printf("Invalid choice!\n");
+        }
+    } while (choice != 0);
+    
+    return 0;
+}
