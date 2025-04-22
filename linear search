@@ -1,9 +1,9 @@
-#include <stdio.h>
+#include <stdio.h> // Include standard input-output library
 
 // Function to perform linear search
 int linearSearch(int arr[], int size, int target) {
-    for (int i = 0; i < size; i++) {
-        if (arr[i] == target) {
+    for (int i = 0; i < size; i++) { // Loop through each element in the array
+        if (arr[i] == target) { // Check if the current element matches the target
             return i; // Return the index if the element is found
         }
     }
@@ -15,29 +15,29 @@ int main() {
 
     // Input the size of the array
     printf("Enter the size of the array: ");
-    scanf("%d", &size);
+    scanf("%d", &size); // Read the size of the array from the user
 
     int arr[size]; // Declare the array with the given size
 
     // Input the elements of the array
     printf("Enter %d elements:\n", size);
     for (int i = 0; i < size; i++) {
-        scanf("%d", &arr[i]);
+        scanf("%d", &arr[i]); // Read each element into the array
     }
 
     // Input the element to search for
     printf("Enter the element to search for: ");
-    scanf("%d", &target);
+    scanf("%d", &target); // Read the target element to be searched
 
     // Perform linear search
     result = linearSearch(arr, size, target);
 
     // Output the result
-    if (result != -1) {
+    if (result != -1) { // If the element is found
         printf("Element %d found at index %d.\n", target, result);
-    } else {
+    } else { // If the element is not found
         printf("Element %d not found in the array.\n", target);
     }
 
-    return 0;
+    return 0; // Indicate successful program termination
 }
