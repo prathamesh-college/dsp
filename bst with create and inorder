@@ -1,98 +1,103 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> // Required for dynamic memory allocation functions like malloc
 
-// Structure for BST node
+// Definition of a node in the Binary Search Tree (BST)
 struct Node {
-    int data;
-    struct Node *left;
-    struct Node *right;
+    int data; // Holds the value of the node
+    struct Node *left; // Pointer to the left child of the node
+    struct Node *right; // Pointer to the right child of the node
 };
 
-// Function to create a new node
+// Function to create a new node in the BST
 struct Node* createNode(int value) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = value;
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node)); // Allocate memory for a new node
+    newNode->data = value; // Set the value of the node
+    newNode->left = NULL; // Initialize the left child to NULL
+    newNode->right = NULL; // Initialize the right child to NULL
+    return newNode; // Return the pointer to the newly created node
 }
 
-// Function to insert a value into BST
+// Function to insert a value into the BST
 struct Node* insert(struct Node* root, int value) {
-    // If tree is empty, create a new node as root
+    // If the BST is empty, create a new node and make it the root
     if (root == NULL) {
         return createNode(value);
     }
     
-    // Otherwise, recur down the tree
+    // If the value to be inserted is less than the current node's value,
+    // insert it into the left subtree
     if (value < root->data) {
         root->left = insert(root->left, value);
-    } else if (value > root->data) {
+    }
+    // If the value to be inserted is greater than the current node's value,
+    // insert it into the right subtree
+    else if (value > root->data) {
         root->right = insert(root->right, value);
     }
     
-    // Return the unchanged node pointer
+    // Return the root pointer (unchanged if no new node is created at this level)
     return root;
 }
 
-// Function to perform inorder traversal (Left-Root-Right)
+// Function to perform an in-order traversal of the BST
+// (In-order traversal prints the BST in sorted order: Left -> Root -> Right)
 void inorder(struct Node* root) {
     if (root != NULL) {
-        // First traverse left subtree
-        inorder(root->left);
-        
-        // Then print the node's data
-        printf("%d ", root->data);
-        
-        // Finally traverse right subtree
-        inorder(root->right);
+        inorder(root->left); // Recursively traverse the left subtree
+        printf("%d ", root->data); // Print the value of the current node
+        inorder(root->right); // Recursively traverse the right subtree
     }
 }
 
-// Function to display the menu
+// Function to display the menu options to the user
 void displayMenu() {
     printf("\n--- Binary Search Tree Operations ---\n");
-    printf("1. Insert a value\n");
-    printf("2. Display Inorder traversal\n");
-    printf("3. Exit\n");
-    printf("Enter your choice: ");
+    printf("1. Insert a value\n"); // Option to insert a value into the BST
+    printf("2. Display Inorder traversal\n"); // Option to display the BST in sorted order
+    printf("3. Exit\n"); // Option to exit the program
+    printf("Enter your choice: "); // Prompt the user to choose an option
 }
 
-// Main function
+// Main function - Entry point of the program
 int main() {
-    struct Node* root = NULL;
-    int choice, value;
+    struct Node* root = NULL; // Initialize the root of the BST as NULL (empty tree)
+    int choice, value; // Variables to store the user's choice and input value
     
     do {
-        displayMenu();
-        scanf("%d", &choice);
+        displayMenu(); // Display the menu
+        scanf("%d", &choice); // Read the user's choice
         
+        // Handle the user's choice using a switch statement
         switch (choice) {
             case 1:
+                // Insert a value into the BST
                 printf("Enter value to insert: ");
-                scanf("%d", &value);
-                root = insert(root, value);
-                printf("%d inserted into the BST\n", value);
+                scanf("%d", &value); // Read the value to be inserted
+                root = insert(root, value); // Call the insert function
+                printf("%d inserted into the BST\n", value); // Confirm insertion
                 break;
                 
             case 2:
+                // Display the in-order traversal of the BST
                 printf("Inorder traversal: ");
                 if (root == NULL) {
-                    printf("Tree is empty");
+                    printf("Tree is empty"); // Print a message if the tree is empty
                 } else {
-                    inorder(root);
+                    inorder(root); // Call the in-order traversal function
                 }
-                printf("\n");
+                printf("\n"); // Print a newline for formatting
                 break;
                 
             case 3:
+                // Exit the program
                 printf("Exiting program\n");
                 break;
                 
             default:
+                // Handle invalid menu choices
                 printf("Invalid choice! Please try again.\n");
         }
-    } while (choice != 3);
+    } while (choice != 3); // Repeat until the user chooses to exit
     
-    return 0;
+    return 0; // Indicate successful program termination
 }
